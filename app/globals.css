@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-lato), system-ui, sans-serif;
+    @apply text-neutral-800 bg-[#faf7f2];
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-playfair), Georgia, serif;
+  }
+}
+
+@layer components {
+  .container-padded { @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8; }
+  .section-padding { @apply py-16 lg:py-24; }
+
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-2 bg-[#1a4236] hover:bg-[#143026] text-white text-xs font-medium tracking-[0.15em] uppercase px-7 py-3 transition-colors duration-200;
+  }
+
+  .btn-dark {
+    @apply inline-flex items-center justify-center gap-2 bg-[#1a4236] hover:bg-[#143026] text-white text-xs font-medium tracking-[0.15em] uppercase px-7 py-3 transition-colors duration-200;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 border border-[#1a4236] text-[#1a4236] hover:bg-[#1a4236] hover:text-white text-xs font-medium tracking-[0.15em] uppercase px-7 py-3 transition-colors duration-200;
+  }
+
+  .input-field {
+    @apply w-full border border-neutral-300 px-4 py-3 text-sm text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:border-[#1a4236] transition;
+  }
+
+  .section-label {
+    @apply text-[#1a4236] text-xs tracking-[0.25em] uppercase font-medium;
+  }
+
+  .section-title {
+    @apply font-playfair text-4xl lg:text-5xl font-semibold text-neutral-900 leading-tight;
+  }
+
+  .section-heading {
+    @apply font-playfair text-3xl lg:text-4xl font-semibold text-neutral-900 leading-tight;
+  }
+}
