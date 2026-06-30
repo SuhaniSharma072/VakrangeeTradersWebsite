@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import ProductGrid from "@/components/products/ProductGrid";
 import ProductFilters from "@/components/products/ProductFilters";
 import PageHero from "@/components/ui/PageHero";
@@ -26,10 +27,14 @@ export default function ProductsPage() {
       <section className="container-padded py-16 lg:py-24 pb-24 lg:pb-32">
         <div className="flex flex-col lg:flex-row gap-10">
           <aside className="w-full lg:w-64 shrink-0">
-            <ProductFilters />
+            <Suspense fallback={null}>
+              <ProductFilters />
+            </Suspense>
           </aside>
           <div className="flex-1">
-            <ProductGrid />
+            <Suspense fallback={<p className="text-sm text-neutral-500">Loading products...</p>}>
+              <ProductGrid />
+            </Suspense>
           </div>
         </div>
       </section>
