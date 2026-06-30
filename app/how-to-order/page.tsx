@@ -8,7 +8,7 @@ import ShippingInfo from "@/components/how-to-order/ShippingInfo";
 export const metadata: Metadata = {
   title: "How to Order",
   description:
-    "Simple 4-step process to place a bulk textile order with Erode Textiles. MOQ from 100 pieces. GST invoicing available.",
+    "Simple 4-step process to place a bulk textile order with Vakrangee Traders. MOQ from 100 pieces. GST invoicing available.",
 };
 
 export default function HowToOrderPage() {

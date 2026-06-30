@@ -6,7 +6,7 @@ import AboutValues from "@/components/about/AboutValues";
 export const metadata: Metadata = {
   title: "About Us",
   description:
-    "Learn about Erode Textiles — a family-run textile wholesale business based in Erode, Tamil Nadu, supplying quality fabrics across India since 2005.",
+    "Learn about Vakrangee Traders — a family-run textile wholesale business based in Erode, Tamil Nadu, supplying quality fabrics across India since 2005.",
 };
 
 export default function AboutPage() {

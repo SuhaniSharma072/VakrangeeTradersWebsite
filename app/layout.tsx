@@ -19,8 +19,8 @@ const lato = Lato({
 
 export const metadata: Metadata = {
   title: {
-    default: "Erode Textiles — Wholesale Lungi, Towels & Bedsheets",
-    template: "%s | Erode Textiles",
+    default: "Vakrangee Traders — Wholesale Lungi, Towels & Bedsheets",
+    template: "%s | Vakrangee Traders",
   },
   description:
     "Premium B2B textile wholesale from Erode, Tamil Nadu. Bulk supplier of lungis, towels, gamacha, and bedsheets to Maharashtra and pan-India.",

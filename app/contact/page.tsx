@@ -6,7 +6,7 @@ import ContactInfo from "@/components/contact/ContactInfo";
 export const metadata: Metadata = {
   title: "Contact Us",
   description:
-    "Get in touch with Erode Textiles for wholesale inquiries, pricing, and bulk orders. We respond within 24 hours.",
+    "Get in touch with Vakrangee Traders for wholesale inquiries, pricing, and bulk orders. We respond within 24 hours.",
 };
 
 export default function ContactPage() {
