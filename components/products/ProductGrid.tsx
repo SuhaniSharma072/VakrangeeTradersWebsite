@@ -120,7 +120,8 @@ export default function ProductGrid() {
                 />
               ) : null}
             </div>
-            <p className="text-xs text-gray-500 mb-3">{p.category.toUpperCase()}</p>
+            <p className="text-xs text-gray-500 mb-1">{p.category.toUpperCase()}</p>
+            <p className="font-playfair text-base text-neutral-800 mb-3">{p.title}</p>
             <a
               href={`https://wa.me/919443673013?text=${encodeURIComponent(`Hi, I'd like to enquire about ${p.title}. Please share pricing and availability.`)}`}
               target="_blank"
