@@ -1,142 +1,33 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import ProductCard from "./ProductCard";
-import { ShopifyProduct } from "@/lib/types";
+import { useEffect, useState } from "react";
+import { client, urlFor } from "@/lib/sanity";
 
-const PRODUCTS: ShopifyProduct[] = [
-  { id: "1",  title: "Cotton Lungi — Style 1",  handle: "lungi-1",  description: "Classic cotton lungi. Comfortable and durable for daily wear.", tags: ["lungi"], priceRange: { minVariantPrice: { amount: "80", currencyCode: "INR" } }, images: { edges: [{ node: { url: "/images/lungi.jpg", altText: "Cotton Lungi" } }] }, variants: { edges: [] } },
-  { id: "2",  title: "Cotton Lungi — Style 2",  handle: "lungi-2",  description: "Classic cotton lungi. Comfortable and durable for daily wear.", tags: ["lungi"], priceRange: { minVariantPrice: { amount: "80", currencyCode: "INR" } }, images: { edges: [{ node: { url: "/images/lungi42.jpg", altText: "Cotton Lungi" } }] }, variants: { edges: [] } },
-  { id: "10", title: "Cotton Lungi — Style 3",  handle: "lungi-3",  description: "Classic cotton lungi. Comfortable and durable for daily wear.", tags: ["lungi"], priceRange: { minVariantPrice: { amount: "80", currencyCode: "INR" } }, images: { edges: [{ node: { url: "/images/lungi45.jpg", altText: "Cotton Lungi" } }] }, variants: { edges: [] } },
-  { id: "11", title: "Cotton Lungi — Style 4",  handle: "lungi-4",  description: "Classic cotton lungi. Comfortable and durable for daily wear.", tags: ["lungi"], priceRange: { minVariantPrice: { amount: "80", currencyCode: "INR" } }, images: { edges: [{ node: { url: "/images/lungi46.jpg", altText: "Cotton Lungi" } }] }, variants: { edges: [] } },
-  { id: "12", title: "Cotton Lungi — Style 5",  handle: "lungi-5",  description: "Classic cotton lungi. Comfortable and durable for daily wear.", tags: ["lungi"], priceRange: { minVariantPrice: { amount: "80", currencyCode: "INR" } }, images: { edges: [{ node: { url: "/images/lungi47.jpg", altText: "Cotton Lungi" } }] }, variants: { edges: [] } },
-  { id: "13", title: "Cotton Lungi — Style 6",  handle: "lungi-6",  description: "Classic cotton lungi. Comfortable and durable for daily wear.", tags: ["lungi"], priceRange: { minVariantPrice: { amount: "80", currencyCode: "INR" } }, images: { edges: [{ node: { url: "/images/lungi48.jpg", altText: "Cotton Lungi" } }] }, variants: { edges: [] } },
-  { id: "22", title: "Cotton Lungi — Style 7",  handle: "lungi-7",  description: "Classic cotton lungi. Comfortable and durable for daily wear.", tags: ["lungi"], priceRange: { minVariantPrice: { amount: "80", currencyCode: "INR" } }, images: { edges: [{ node: { url: "/images/lungi49.jpg", altText: "Cotton Lungi" } }] }, variants: { edges: [] } },
-  { id: "23", title: "Cotton Lungi — Style 8",  handle: "lungi-8",  description: "Classic cotton lungi. Comfortable and durable for daily wear.", tags: ["lungi"], priceRange: { minVariantPrice: { amount: "80", currencyCode: "INR" } }, images: { edges: [{ node: { url: "/images/lungi50.jpg", altText: "Cotton Lungi" } }] }, variants: { edges: [] } },
-  { id: "24", title: "Cotton Lungi — Style 9",  handle: "lungi-9",  description: "Classic cotton lungi. Comfortable and durable for daily wear.", tags: ["lungi"], priceRange: { minVariantPrice: { amount: "80", currencyCode: "INR" } }, images: { edges: [{ node: { url: "/images/lungi51.jpg", altText: "Cotton Lungi" } }] }, variants: { edges: [] } },
-  { id: "25", title: "Cotton Lungi — Style 10", handle: "lungi-10", description: "Classic cotton lungi. Comfortable and durable for daily wear.", tags: ["lungi"], priceRange: { minVariantPrice: { amount: "80", currencyCode: "INR" } }, images: { edges: [{ node: { url: "/images/lungi52.jpg", altText: "Cotton Lungi" } }] }, variants: { edges: [] } },
-  { id: "26", title: "Cotton Lungi — Style 11", handle: "lungi-11", description: "Classic cotton lungi. Comfortable and durable for daily wear.", tags: ["lungi"], priceRange: { minVariantPrice: { amount: "80", currencyCode: "INR" } }, images: { edges: [{ node: { url: "/images/lungi53.jpg", altText: "Cotton Lungi" } }] }, variants: { edges: [] } },
-  { id: "27", title: "Cotton Lungi — Style 12", handle: "lungi-12", description: "Classic cotton lungi. Comfortable and durable for daily wear.", tags: ["lungi"], priceRange: { minVariantPrice: { amount: "80", currencyCode: "INR" } }, images: { edges: [{ node: { url: "/images/lungi54.jpg", altText: "Cotton Lungi" } }] }, variants: { edges: [] } },
-  { id: "28", title: "Cotton Lungi — Style 13", handle: "lungi-13", description: "Classic cotton lungi. Comfortable and durable for daily wear.", tags: ["lungi"], priceRange: { minVariantPrice: { amount: "80", currencyCode: "INR" } }, images: { edges: [{ node: { url: "/images/lungi57.jpg", altText: "Cotton Lungi" } }] }, variants: { edges: [] } },
-  { id: "29", title: "Cotton Lungi — Style 14", handle: "lungi-14", description: "Classic cotton lungi. Comfortable and durable for daily wear.", tags: ["lungi"], priceRange: { minVariantPrice: { amount: "80", currencyCode: "INR" } }, images: { edges: [{ node: { url: "/images/lungi58.jpg", altText: "Cotton Lungi" } }] }, variants: { edges: [] } },
-  { id: "30", title: "Cotton Lungi — Style 15", handle: "lungi-15", description: "Classic cotton lungi. Comfortable and durable for daily wear.", tags: ["lungi"], priceRange: { minVariantPrice: { amount: "80", currencyCode: "INR" } }, images: { edges: [{ node: { url: "/images/lungi59.jpg", altText: "Cotton Lungi" } }] }, variants: { edges: [] } },
-  { id: "31", title: "Cotton Lungi — Style 16", handle: "lungi-16", description: "Classic cotton lungi. Comfortable and durable for daily wear.", tags: ["lungi"], priceRange: { minVariantPrice: { amount: "80", currencyCode: "INR" } }, images: { edges: [{ node: { url: "/images/lungi60.jpg", altText: "Cotton Lungi" } }] }, variants: { edges: [] } },
-  { id: "32", title: "Cotton Lungi — Style 17", handle: "lungi-17", description: "Classic cotton lungi. Comfortable and durable for daily wear.", tags: ["lungi"], priceRange: { minVariantPrice: { amount: "80", currencyCode: "INR" } }, images: { edges: [{ node: { url: "/images/lungi61.jpg", altText: "Cotton Lungi" } }] }, variants: { edges: [] } },
-  {
-    id: "3",
-    title: "Terry Bath Towel",
-    handle: "terry-bath-towel",
-    description: "Soft terry cloth bath towel. 70×140 cm. Hotel and retail grade.",
-    tags: ["towel"],
-    priceRange: { minVariantPrice: { amount: "120", currencyCode: "INR" } },
-    images: { edges: [{ node: { url: "/images/towel.jpg", altText: "Terry Bath Towel" } }] },
-    variants: { edges: [] },
-  },
-  {
-    id: "4",
-    title: "Terry Bath Towel — Premium",
-    handle: "terry-bath-towel-premium",
-    description: "Premium heavyweight terry towel. 70×140 cm. Extra soft and highly absorbent.",
-    tags: ["towel"],
-    priceRange: { minVariantPrice: { amount: "165", currencyCode: "INR" } },
-    images: { edges: [{ node: { url: "/images/towel3.jpg", altText: "Terry Bath Towel Premium" } }] },
-    variants: { edges: [] },
-  },
-  {
-    id: "5",
-    title: "Terry Hand Towel",
-    handle: "terry-hand-towel",
-    description: "Compact hand towel. 40×60 cm. Ideal for retail packs and hotel amenities.",
-    tags: ["towel"],
-    priceRange: { minVariantPrice: { amount: "65", currencyCode: "INR" } },
-    images: { edges: [{ node: { url: "/images/towel32.jpg", altText: "Terry Hand Towel" } }] },
-    variants: { edges: [] },
-  },
-  {
-    id: "14",
-    title: "Cotton Towel — Style 4",
-    handle: "cotton-towel-style-4",
-    description: "Soft cotton towel. Available in assorted colours. Ideal for retail.",
-    tags: ["towel"],
-    priceRange: { minVariantPrice: { amount: "90", currencyCode: "INR" } },
-    images: { edges: [{ node: { url: "/images/towel34.jpg", altText: "Cotton Towel Style 4" } }] },
-    variants: { edges: [] },
-  },
-  {
-    id: "15",
-    title: "Cotton Towel — Style 5",
-    handle: "cotton-towel-style-5",
-    description: "Soft cotton towel. Available in assorted colours. Ideal for retail.",
-    tags: ["towel"],
-    priceRange: { minVariantPrice: { amount: "90", currencyCode: "INR" } },
-    images: { edges: [{ node: { url: "/images/towel35.jpg", altText: "Cotton Towel Style 5" } }] },
-    variants: { edges: [] },
-  },
-  {
-    id: "16",
-    title: "Cotton Towel — Style 6",
-    handle: "cotton-towel-style-6",
-    description: "Soft cotton towel. Available in assorted colours. Ideal for retail.",
-    tags: ["towel"],
-    priceRange: { minVariantPrice: { amount: "90", currencyCode: "INR" } },
-    images: { edges: [{ node: { url: "/images/towel36.jpg", altText: "Cotton Towel Style 6" } }] },
-    variants: { edges: [] },
-  },
-  {
-    id: "17",
-    title: "Cotton Towel — Style 7",
-    handle: "cotton-towel-style-7",
-    description: "Soft cotton towel. Available in assorted colours. Ideal for retail.",
-    tags: ["towel"],
-    priceRange: { minVariantPrice: { amount: "90", currencyCode: "INR" } },
-    images: { edges: [{ node: { url: "/images/towel37.jpg", altText: "Cotton Towel Style 7" } }] },
-    variants: { edges: [] },
-  },
-  {
-    id: "18",
-    title: "Cotton Towel — Style 8",
-    handle: "cotton-towel-style-8",
-    description: "Soft cotton towel. Available in assorted colours. Ideal for retail.",
-    tags: ["towel"],
-    priceRange: { minVariantPrice: { amount: "90", currencyCode: "INR" } },
-    images: { edges: [{ node: { url: "/images/towel38.jpg", altText: "Cotton Towel Style 8" } }] },
-    variants: { edges: [] },
-  },
-  {
-    id: "19",
-    title: "Cotton Towel — Style 9",
-    handle: "cotton-towel-style-9",
-    description: "Soft cotton towel. Available in assorted colours. Ideal for retail.",
-    tags: ["towel"],
-    priceRange: { minVariantPrice: { amount: "90", currencyCode: "INR" } },
-    images: { edges: [{ node: { url: "/images/towel41.jpg", altText: "Cotton Towel Style 9" } }] },
-    variants: { edges: [] },
-  },
-  {
-    id: "20",
-    title: "Cotton Towel — Style 10",
-    handle: "cotton-towel-style-10",
-    description: "Soft cotton towel. Available in assorted colours. Ideal for retail.",
-    tags: ["towel"],
-    priceRange: { minVariantPrice: { amount: "90", currencyCode: "INR" } },
-    images: { edges: [{ node: { url: "/images/anothertowel.jpg", altText: "Cotton Towel Style 10" } }] },
-    variants: { edges: [] },
-  },
-  {
-    id: "21",
-    title: "Cotton Towel — Style 11",
-    handle: "cotton-towel-style-11",
-    description: "Soft cotton towel. Available in assorted colours. Ideal for retail.",
-    tags: ["towel"],
-    priceRange: { minVariantPrice: { amount: "90", currencyCode: "INR" } },
-    images: { edges: [{ node: { url: "/images/moretowel.jpg", altText: "Cotton Towel Style 11" } }] },
-    variants: { edges: [] },
-  },
-];
+type SanityProduct = {
+  _id: string;
+  title: string;
+  category: string;
+  image?: any;
+  description?: string;
+  inStock: boolean;
+};
 
 export default function ProductGrid() {
   const params = useSearchParams();
   const category = params.get("category");
+  const [products, setProducts] = useState<SanityProduct[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const query = category
+      ? `*[_type == "product" && category == $category && inStock != false] | order(_createdAt asc)`
+      : `*[_type == "product" && inStock != false] | order(_createdAt asc)`;
+
+    client
+      .fetch(query, { category })
+      .then((data) => { setProducts(data); setLoading(false); });
+  }, [category]);
 
   if (category === "bedsheet") {
     return (
@@ -157,21 +48,29 @@ export default function ProductGrid() {
     );
   }
 
-  const filtered = category
-    ? PRODUCTS.filter((p) =>
-        p.tags.some((t) => t.toLowerCase() === category.toLowerCase())
-      )
-    : PRODUCTS;
+  if (loading) {
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+        {[...Array(6)].map((_, i) => (
+          <div key={i} className="animate-pulse">
+            <div className="bg-neutral-100 aspect-square w-full mb-3" />
+            <div className="h-3 bg-neutral-100 w-16 mb-3" />
+            <div className="h-8 bg-neutral-100 w-full" />
+          </div>
+        ))}
+      </div>
+    );
+  }
 
-  if (!filtered.length) {
+  if (!products.length) {
     return (
       <div className="text-center py-16">
-        <p className="text-slate-500">No products found in this category.</p>
+        <p className="text-slate-500 mb-4">No products found in this category.</p>
         <a
           href={`https://wa.me/919443673013?text=${encodeURIComponent("Hi! I'm looking for a specific textile product. Can you help?")}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="btn-primary mt-4 inline-flex"
+          className="btn-gold"
         >
           Ask on WhatsApp
         </a>
@@ -182,12 +81,31 @@ export default function ProductGrid() {
   return (
     <div>
       <p className="text-sm text-slate-500 mb-6">
-        Showing {filtered.length} product{filtered.length !== 1 ? "s" : ""}
+        Showing {products.length} product{products.length !== 1 ? "s" : ""}
         {category ? ` in "${category}"` : ""}
       </p>
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-        {filtered.map((p) => (
-          <ProductCard key={p.id} product={p} />
+        {products.map((p) => (
+          <div key={p._id} className="group">
+            <div className="bg-neutral-50 aspect-square w-full mb-3 overflow-hidden border border-neutral-100">
+              {p.image ? (
+                <img
+                  src={urlFor(p.image).width(600).height(600).fit("crop").url()}
+                  alt={p.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+              ) : null}
+            </div>
+            <p className="text-xs text-gray-500 mb-3">{p.category.toUpperCase()}</p>
+            <a
+              href={`https://wa.me/919443673013?text=${encodeURIComponent(`Hi, I'd like to enquire about ${p.title}. Please share pricing and availability.`)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-dark"
+            >
+              Enquire on WhatsApp
+            </a>
+          </div>
         ))}
       </div>
 
