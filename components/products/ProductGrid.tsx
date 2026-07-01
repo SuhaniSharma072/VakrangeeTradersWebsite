@@ -3,6 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { client, urlFor } from "@/lib/sanity";
+import { X } from "lucide-react";
 
 type SanityProduct = {
   _id: string;
@@ -18,6 +19,7 @@ export default function ProductGrid() {
   const category = params.get("category");
   const [products, setProducts] = useState<SanityProduct[]>([]);
   const [loading, setLoading] = useState(true);
+  const [lightboxImage, setLightboxImage] = useState<string | null>(null);
 
   useEffect(() => {
     const query = category
@@ -80,6 +82,25 @@ export default function ProductGrid() {
 
   return (
     <div>
+      {lightboxImage && (
+        <div
+          className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
+          onClick={() => setLightboxImage(null)}
+        >
+          <button
+            className="absolute top-4 right-4 text-white bg-black/50 rounded-full p-2 hover:bg-black/80"
+            onClick={() => setLightboxImage(null)}
+          >
+            <X size={24} />
+          </button>
+          <img
+            src={lightboxImage}
+            alt="Product"
+            className="max-h-[90vh] max-w-[90vw] object-contain"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
       <p className="text-sm text-slate-500 mb-6">
         Showing {products.length} product{products.length !== 1 ? "s" : ""}
         {category ? ` in "${category}"` : ""}
@@ -87,7 +108,10 @@ export default function ProductGrid() {
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
         {products.map((p) => (
           <div key={p._id} className="group">
-            <div className="bg-neutral-50 aspect-square w-full mb-3 overflow-hidden border border-neutral-100">
+            <div
+              className="bg-neutral-50 aspect-square w-full mb-3 overflow-hidden border border-neutral-100 cursor-zoom-in"
+              onClick={() => p.image && setLightboxImage(urlFor(p.image).width(1200).url())}
+            >
               {p.image ? (
                 <img
                   src={urlFor(p.image).width(600).height(600).fit("crop").url()}
